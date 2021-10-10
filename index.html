@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <title>Chat</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.js"></script>
+	  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	  <link rel="stylesheet" type="text/css" href="css/home.css">
+	</head>
+<body  ng-app="myapp" ng-controller="myctrl">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    <div class="modal-content mx-auto text-white">
+		    <div class="navbar navbar-expand-lg bg-primary">
+		    	<ul class="nav navbar-nav">
+		    		<li class="opt" ng-click="start('login')" ng-class="{'act1':open=='login'}">Login</li>
+		    		<li class="opt" ng-click="start('signup')" ng-class="{'act1':open=='signup'}">Sign Up</li>
+		    	</ul>
+		    </div>
+		    <div class="modal-body" ng-show="open=='login'">
+				<center><img src="images/login.jpg" class="img-fluid rounded-circle"></center><br><br>
+		    	<table class="mx-auto">
+		    		<tr>
+						<td>Enter Username:</td><td><input id="signin_username"></td>
+					</tr>
+					<tr>
+						<td>Enter Password:</td><td><input type="password" id="signin_password"></td>
+					</tr>
+		    	</table>
+		    </div>
+		    <div class="modal-footer" ng-show="open=='login'">
+		    	<a ng-show="open=='login'" ng-click="start('forgot')">Forgot Password?</a>
+		    	<button type="button" class="btn btn-secondary" data-dismiss="modal" id="login_close">Close</button>
+		        <button type="button" class="btn btn-primary" id="login_submit">Login</button>
+		    </div>
+
+		    <div class="modal-body" ng-show="open=='signup'">
+		    	<center><img src="images/signup.jpg" class="img-fluid rounded-circle"></center><br><br>
+		      	<table class="mx-auto">
+		      		<tr>
+						<td>Enter Name:</td><td><input id="signup_name"></td>
+						<td>Enter Date of Birth:</td><td><input type="date" id="dob"></td>
+					</tr>
+		    		<tr>
+						<td>Enter Username:</td><td><input id="signup_username"></td>
+						<td>Enter E-mail:</td><td><input type="email" id="signup_email"></td>
+					</tr>
+					<tr>
+						<td>Enter Password:</td><td><input type="password" id="signup_password"></td>
+						<td>Re-enter Password:</td><td><input id="signup_password2"></td>
+					</tr>
+		    	</table>
+		    </div>
+		    <div class="modal-footer" ng-show="open=='signup'">
+		    	<button type="button" class="btn btn-secondary" data-dismiss="modal" id="signup_close">Close</button>
+		        <button type="button" class="btn btn-primary" id="signup_submit">Sign Up</button>
+		    </div>
+
+		    <div class=modal-body ng-show="open=='forgot'">
+		    	<center><img src="images/forgot.jpg" class="img-fluid rounded-circle"></center><br><br>
+		    	<table class="mx-auto">
+		    		<tr>
+		    			<td>Enter Username:</td><td><input id="forgot_username"></td>
+		    		</tr>
+		    	</table>
+		    </div>
+		    <div class="modal-footer" ng-show="open=='forgot'">
+		    	<button type="button" class="btn btn-secondary" data-dismiss="modal" id="forgot_close">Close</button>
+		        <button type="button" class="btn btn-primary" id="forgot_submit">Submit</button>
+		    </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary h-10">
+    	<a class="navbar-brand display-3 mx-auto" href=".">Our Chat</a>
+	  	<ul class="navbar-nav">
+	  		<a class="nav-link" data-toggle="modal" data-target="#menu"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></a>
+	    	<li class="nav-item dropdown">
+	      		<a class="nav-link dropdown" href="#" id="navbardrop" data-toggle="dropdown">
+	        		<i class="fas fa-ellipsis-v fa-2x"></i>
+	      		</a>
+	    		<div class="dropdown-menu dropdown-menu-right">
+	        		<button type="button" class="btn dropdown-item" data-toggle="modal" data-target="#settings">Account Settings</button>
+	        		<button type="button" class="btn dropdown-item" data-toggle="modal" data-target="#change">Change Password</button>
+	        		<hr>
+	        		<a class="dropdown-item" href="#" id="sign_out">Sign Out</a>
+				</div>
+	    	</li>
+	  	</ul>
+	</nav>
+
+	<div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="settingsCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    <div class="modal-content mx-auto text-white">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="settingsLongTitle">Account Settings</h5>
+	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<center><img src="images/account.jpg" class="img-fluid rounded-circle"></center>
+	      	<br><br>
+	        <table class="mx-auto">
+	      		<tr>
+					<td>Name:</td><td><input id="account_name"></td>
+					<td>Date of Birth:</td><td><input type="date" id="dob"></td>
+				</tr>
+	    		<tr>
+					<td>Username:</td><td><input id="account_username"></td>
+					<td>E-mail:</td><td><input type="email" id="account_email"></td>
+				</tr>
+		    </table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="modal fade" id="change" tabindex="-1" role="dialog" aria-labelledby="changeCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+	    <div class="modal-content mx-auto text-white">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="changeLongTitle">Change Password</h5>
+	        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<center><img src="images/change.jpg" class="img-fluid rounded-circle"></center>
+	      	<br><br>
+	        <table class="mx-auto">
+	      		<tr>
+					<td>Current Password</td><td><input type="password" id="pass"></td>
+				</tr>
+	    		<tr>
+					<td>New Password:</td><td><input type="password" id="pass_new"></td>
+				</tr>
+				<tr>
+					<td>Re-enter Password:</td><td><input type="password" id="pass_new2"></td>
+				</tr>
+		    </table>
+	      </div>
+
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Change</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="modal fade" id="menu" tabindex="-1" role="dialog" aria-labelledby="menuLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content text-white">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="menuLabel">Add New Contact</h5>
+	        <a class="close text-white" data-dismiss="modal" aria-label="Close">
+	          <i class="fa fa-times" aria-hidden="true"></i>
+	        </a>
+	      </div>
+	      <div class="modal-body">
+	      	<center><img src="images/add.jpg" class="img-fluid rounded-circle" alt="Responsive image"></center>
+	      	<br><br>
+	        <div class="row">
+	        	<input type="text" class="search" id="search_friends" placeholder="Find your contacts here!">
+	        	<span class="fa"><i class="fa fa-search fa-lg" aria-hidden="true"></i></span>
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="add_friend">Add</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+ 	<div class="container-fluid col-md-3">
+ 		<div class="row">
+ 			<input type="text" class="search" placeholder="Search your contacts here!">
+ 			<span class="fa"><i class="fa fa-search fa-lg" aria-hidden="true"></i></span>
+ 		</div>
+ 		<div class="jumbotron-fluid" ng-hide="user">
+ 			<p class="lead"><i class="fa fa-user-times fa-3x" aria-hidden="true"></i></p>
+ 			<h1 class="display-4">Oops!</h1>
+ 			<p class="lead">Looks like you have not added any contacts.</p>
+ 			<p class="lead">Add contacts and start chatting with people</p>
+ 			<hr class="my-5">
+ 		</div>
+ 		<div class="list" ng-show="user">
+			<a ng-class="{'act2':active==key}" ng-modal="row" ng-click="func(key)" class="row" ng-repeat="(key, value) in data">
+				<h4>{{key}}</h4>
+			</a>
+ 		</div>
+ 	</div>
+
+ 	<div id="welcome" class="jumbotron-fluid col-md-9 " ng-hide="active">
+ 		<p class="lead"><i class="fas fa-comment-alt fa-5x"></i></p>
+ 		<h1 class="display-3">Welcome!</h1><br><br>
+ 		<p class="lead">Please select a contact to start a conversation with them.</p>
+  		<p class="lead">Your conversation with a person will appear here.</p>
+	  	<hr class="my-5">
+	</div>
+	
+		<div ng-show="active==key" class="container-fluid col-md-9 dynamicElement" ng-repeat="(key, value) in data">
+			<div class="row"><p>{{key}}</p></div>
+			<div class="messages" id="{{key}}">
+				<div id="{{key+'_'+msg.id}}" class="chat_mess {{uname==msg.sender ? 'chat_mess1' : 'chat_mess2'}}" ng-repeat="msg in value">
+					{{msg.msg}}
+					<span class="time"> {{getTime(msg.timestamp)}} </span>
+					<span id="msg_status" class="msg_status" ng-show="uname==msg.sender"><i class="far fa-check-circle"></i></span>
+				</div>
+			</div>
+			<div class="row fixed-bottom">
+				<textarea class="message " placeholder="Type your message here!" id="{{key+'_msg'}}"></textarea>
+				<span class="fa submit"><i class="fa fa-paper-plane fa-3x" aria-hidden="true"></i></span>
+			</div>
+		</div>
+</body>
+<script src="js/ajax.js"></script>
+</html>
